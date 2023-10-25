@@ -2,14 +2,23 @@
     <div class="login-body"> 
         <div class="login-panel">
             <div class="login-title">用户登录</div> 
-             <el-form :model="formData">
-                <el-form-item label="">
-                    <el-input placeholder="请输入用户名" v-model="formData.username"></el-input>
+             <el-form :model="formData" :rules="rules" ref="formDataRef">
+                <el-form-item prop="account">
+                    <el-input placeholder="请输入用户名" v-model="formData.username">
+                        <template #prefix>
+                            <span class="iconfont icon-account"></span>
+                        </template>
+                    </el-input>
                 </el-form-item>
-                <el-form-item label="">
-                    <el-input placeholder="密码" v-model="formData.password"></el-input>
+                <el-form-item prop="password">
+                    <el-input placeholder="请输入密码" v-model="formData.password">
+                        <template #prefix>
+                            <span class="iconfont icon-password"></span>
+                        </template>
+                    </el-input>
+                   
                 </el-form-item>
-                <el-form-item label="">
+                <el-form-item prop="checkCode">
                     <div class="check-code-panel">
                     <el-input placeholder="请输入验证码" v-model="formData.checkCode" class="input-panel"></el-input>
                     <img :src="checkCodeUrl" class="check-code" @click="changeCheckCode">
@@ -33,12 +42,34 @@
 
 <script setup>
 import { reactive, ref} from "vue"
+
+const api = {
+    checkCode: "api/checkCode"
+}
+const checkCodeUrl = ref(api.checkCode)
+const changeCheckCode = () => {
+    checkCodeUrl.value = api.checkCode + "?" + new Date().getTime();
+}
+
+const formDataRef = ref();
 const formData = reactive({});
 
-const checkCodeUrl = "api/checkCode?" + new Date().getTime();
-const changeCheckCode = () => {
-    checkCodeUrl.value="1234"
+const rules = {
+    account: [{
+        required: true,
+        message: "请输入用户名"
+    }]
 }
+
+const login = () => {
+    formDataRef.value.validate((valid) => {
+        if(!valid){
+            return ;
+        }
+    });
+}
+
+
 </script>
 
 
