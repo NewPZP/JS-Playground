@@ -24,7 +24,7 @@ const request = () => {
 
      const instants = axios.create({ 
         baseURL: 'api',
-        timeout: 10*1000;
+        timeout: 10*1000,
         headers:{
             'Content-Type': contentType,
             'X-Requested-With': 'XMLHttpRequest'
