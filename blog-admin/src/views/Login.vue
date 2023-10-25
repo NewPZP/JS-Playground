@@ -58,6 +58,14 @@ const rules = {
     account: [{
         required: true,
         message: "请输入用户名"
+    }],
+    password: [{
+        required: true,
+        message: "请输入密码"
+    }],
+    checkCode: [{
+        required: true,
+        message: "请输入验证码"
     }]
 }
 
