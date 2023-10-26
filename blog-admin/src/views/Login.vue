@@ -31,19 +31,20 @@
 
 
                 <el-form-item label="">
-                    <el-button :style="{width:'100%'}" type="primary" >登录</el-button>
+                    <el-button :style="{width:'100%'}" type="primary"  @click="login">登录</el-button>
                 </el-form-item>
                 
-             </el-form>
+             </el-form> 
         </div> 
 
     </div>
 </template>
 
 <script setup>
-import { reactive, ref} from "vue"
+import { reactive, ref, getCurrentInstance } from "vue"
+const { proxy } =  getCurrentInstance()
 
-const api = {
+const api = { 
     checkCode: "api/checkCode"
 }
 const checkCodeUrl = ref(api.checkCode)
@@ -55,7 +56,7 @@ const formDataRef = ref();
 const formData = reactive({});
 
 const rules = {
-    account: [{
+    username: [{
         required: true,
         message: "请输入用户名"
     }],
@@ -70,10 +71,18 @@ const rules = {
 }
 
 const login = () => {
-    formDataRef.value.validate((valid) => {
+    formDataRef.value.validate(async (valid) => {
         if(!valid){
             return ;
         }
+        let result = await proxy.Request({
+            url: api.login,
+            params:{
+                account: formData.account,
+                password: formData.password,
+                checkCode: formData.checkCode
+            }
+        })
     });
 }
 

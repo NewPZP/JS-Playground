@@ -1,14 +1,13 @@
 import axios from "axios"
-import { ElLoading, ElMessage } from "element-plus";
+import { ElLoading } from "element-plus";
+import message from "@/utils/Message";
 
 const contentTypeForm = "application/x-www-form-urlencoded;chatset=UTF-8";
 const contentTypeJson = "application/json";
 const contentTypeFile = "multipart/form-data"
 
-const request = () => {
-     const { url, params, dataType, showLoading } = config;
-     dataType = dataType ? "from" : dataType;
-     showLoading = showLoading ? true : showLoading;
+const request = (config) => {
+     const { url, params, dataType = 'form', showLoading = true } = config;
 
      let contentType = contentTypeForm;
      if(dataType === "json"){
@@ -22,7 +21,7 @@ const request = () => {
         params = param;
      }
 
-     const instants = axios.create({ 
+     const instance = axios.create({ 
         baseURL: 'api',
         timeout: 10*1000,
         headers:{
@@ -41,16 +40,14 @@ const request = () => {
                     background: 'rgba(0, 0, 0, 0.7)'
                 })
             }
+            return  config;
         },
         (error) => {
 
             if(showLoading && loading){
                 loading.close();
             }
-            ElMessage({
-                 message: '发送请求失败',
-                 type: 'error'
-            })
+            message.error(error);
             return Promise.reject('发送请求失败');
         }
          
@@ -62,6 +59,11 @@ const request = () => {
                 loading.close();
             }
             const responseData = response.data;
+            if(responseData.code != 200){
+                return Promise.reject(responseData.msg);
+            }else{
+
+            }
         }, 
         (error) => {
             if(showLoading && loading){
@@ -72,10 +74,7 @@ const request = () => {
     )
 
     return instance.post(url,params).catch(error => {
-        ElMessage({ 
-            message: error,
-            type: 'error'
-        })
+        message.error(error);
         return null;
     })
 }
