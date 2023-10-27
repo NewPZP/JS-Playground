@@ -6,6 +6,12 @@ const routes = [
         path: '/login',
         component: () => import('../views/Login.vue')
 
+    },
+    {
+        name: '主页',
+        path: '/home',
+        component: () => import('../views/Framework.vue')
+
     }
 ]
 

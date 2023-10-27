@@ -60,9 +60,20 @@ const request = (config) => {
             }
             const responseData = response.data;
             if(responseData.code != 200){
+                if(config.errorCallback){
+                    config.errorCallback();
+                }
+
                 return Promise.reject(responseData.msg);
             }else{
-
+                if(responseData.code == 200){
+                    return responseData.data;
+                }else if (responseData.code == 901){
+                    setTimeout(() => {
+                        router.push('/login')
+                    },2000);
+                    return Promise.reject(responseData.msg);
+                }
             }
         }, 
         (error) => {
