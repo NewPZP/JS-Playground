@@ -45,7 +45,8 @@ import { reactive, ref, getCurrentInstance } from "vue"
 const { proxy } =  getCurrentInstance()
 
 const api = { 
-    checkCode: "api/checkCode"
+    checkCode: "api/checkCode",
+    login: "login"
 }
 const checkCodeUrl = ref(api.checkCode)
 const changeCheckCode = () => {

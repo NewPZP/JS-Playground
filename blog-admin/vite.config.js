@@ -7,7 +7,12 @@ import { viteMockServe } from 'vite-plugin-mock'
 export default defineConfig({
   plugins: [
     vue(),
-    viteMockServe({ mockPath: 'mock'})
+    viteMockServe({ 
+      mockPath: 'src/api/mock',
+      localEnabled: true,
+      watchFiles: true,
+      logger: true
+    })
   ],
   // server: {
   //   hmr: true,
