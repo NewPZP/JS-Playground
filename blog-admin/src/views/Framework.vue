@@ -7,12 +7,24 @@
             <div>
               <el-button class="post-btn">发布</el-button>
             </div>
+            <div class="menu-panel">
+              <ul>
+                <li v-for="(item, index) in menuList" :key="index">
+                  <span>{{ item.title }}</span>
+                  <ul>
+                      <li v-for="(subItem, subIndex) in item.children" :key="subIndex">
+                        <span>{{ subItem.title }}</span>
+                      </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
           </el-aside>
           <el-main class="right-main">Main</el-main>
         </el-container>
       </el-container>
     </div>
-  </template>
+</template>
   
 <script setup>
 import { ref } from 'vue'
@@ -96,6 +108,13 @@ const menuList = ref([
          color: #fff;
          height: 40px;
          width: 100%;
+      }
+      .menu-panel{
+        ul, li{
+          list-style: none;
+          padding: 0;
+          margin: 0;
+        }
       }
     }
     .right-main{
