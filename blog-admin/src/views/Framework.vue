@@ -10,6 +10,7 @@
             <div class="menu-panel">
               <ul>
                 <li v-for="(item, index) in menuList" :key="index">
+                  <span :class="['iconfont',menu.icon]"></span>
                   <span>{{ item.title }}</span>
                   <ul>
                       <li v-for="(subItem, subIndex) in item.children" :key="subIndex">
